@@ -8,3 +8,5 @@ engine.setProperty('rate', 130)
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
+
+#dfkldfmnfmd
