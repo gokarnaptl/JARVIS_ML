@@ -1,0 +1,25 @@
+{
+	"intends":[
+		{
+			"tag":"greeting",
+			"patterns":["hello","hi", "hey","wake up","jarvis"
+			],
+			"responses":["Hello Sir", "How Are You Sir.","Always For You Sir","Hello","Here's You Assistant."
+			]
+		},
+		{
+			"tag":"breakup",
+			"patterns":["bye","good bye", "see you later","sleep","exit"
+			],
+			"responses":["Bye.", "I AM Going.","Bye Sir.","Good Bye","It'll Be Nice To Meet You Again.","See You Later"
+			]
+		},
+		{
+			"tag":"health",
+			"patterns":["how are you","how you", "are you fine ?","are you good ?"
+			],
+			"responses":["Fine", "Perfect.","Cool.","Like You.","Are You Fine ? I'm Fine."
+			]
+		}
+	]
+}
