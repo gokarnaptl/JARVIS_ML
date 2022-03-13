@@ -1,10 +1,8 @@
-from typing import ClassVar
 import numpy as np
 import json
-from numpy.core.numeric import identify
 import torch
 import torch.nn as nn
-from torch.utils.data import dataset,dataloader
+from torch.utils.data import Dataset,Dataloader
 from NeuralNetwork import bag_of_words , tokenize , stem
 from Brain import NeuralNet
 
@@ -20,7 +18,6 @@ for intents in intents['intents']:
     tags.append(tag)
 
     for pattern in intents['patterns']:
-        print(pattern)
         w = tokenize(pattern)
         all_words.extend(w)
         xy.append((w,tag))
@@ -52,7 +49,7 @@ output_size = len(tags)
 
 print("Training The Model....")
 
-class ChatDataset(dataset):
+class ChatDataset(Dataset):
 
     def __init__(self):
         self.n_samples = len(x_train)
@@ -67,10 +64,41 @@ class ChatDataset(dataset):
 
 dataset = ChatDataset()
 
-train_loader = dataloader(dataset=dataset,
+train_loader = Dataloader(dataset=dataset,
                             batch_size=batch_size,
                             shuffle=True,
                             num_workers=0)
 
 device = torch.device('cuda' if torch.cuda.is_available()else 'cpu')
 model = NeuralNet(input_size,hidden_size,output_size).to(device=device)
+criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(model.parameters(),lr=learning_rate)
+
+for epoch in range(num_epochs):
+    for (words,labels) in train_loader:
+        words = words.to(device)
+        labels = labels.to(dtype=torch.long).to(device)
+        outputs = model(words)
+        loss = criterion(outputs,labels)
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+    if (epoch+1) % 100 ==0:
+        print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}')
+
+print(f'Final Loss : {loss.item():.4f}')
+
+data = {
+"model_state":model.state_dict(),
+"input_size":input_size,
+"hidden_size":hidden_size,
+"output_size":output_size,
+"all_words":all_words,
+"tags":tags
+}
+
+FILE = "TrainData.pth"
+torch.save(data,FILE)
+
+print(f"Training Complete, File Saved To {FILE}")
