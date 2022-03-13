@@ -28,5 +28,5 @@ Name = "Jarvis"
 from Listen import Listen
 def Main():
 	sentence = Listen
-
+	result = str(sentence)
 # Main()

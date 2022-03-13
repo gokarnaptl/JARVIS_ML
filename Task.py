@@ -37,8 +37,14 @@ def NonInputExecution(query):
 def InputExecution(tag,query):
 
     if "wikipedia" in tag:
-        name = str(query).replace("","")
+        name = str(query).replace("who is","").replace("about","")
         import wikipedia
         result = wikipedia.summary(name)
         Say(result)
+
+    elif "google" in tag:
+        query = str(query).replace("google","")
+        query = query.replace("search","")
+        import pywhatkit
+        pywhatkit.search(query)
 
