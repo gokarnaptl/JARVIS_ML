@@ -1,6 +1,6 @@
 import speech_recognition as sr
 
-def takeCommand():
+def Listen():
 	
     r = sr.Recognizer()
 

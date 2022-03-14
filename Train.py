@@ -2,9 +2,10 @@ import numpy as np
 import json
 import torch
 import torch.nn as nn
-from torch.utils.data import Dataset,Dataloader
+from torch.utils.data import Dataset,DataLoader
 from NeuralNetwork import bag_of_words , tokenize , stem
 from Brain import NeuralNet
+
 
 with open('intents.json','r') as f:
     intents = json.load(f)
@@ -64,7 +65,7 @@ class ChatDataset(Dataset):
 
 dataset = ChatDataset()
 
-train_loader = Dataloader(dataset=dataset,
+train_loader = DataLoader(dataset=dataset,
                             batch_size=batch_size,
                             shuffle=True,
                             num_workers=0)
