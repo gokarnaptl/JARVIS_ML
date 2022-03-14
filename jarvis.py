@@ -23,10 +23,38 @@ model.load_state_dict(model_state)
 model.eval()
 
 #----------------
-
 Name = "Jarvis"
+
 from Listen import Listen
+from Speak import Say
+
 def Main():
-	sentence = Listen
-	result = str(sentence)
-# Main()
+
+	sentence = Listen()
+
+	if sentence == "bye":
+		exit()
+	
+	sentence = tokenize(sentence)
+	X = bag_of_words(sentence, all_words)
+	X = X.reshape(1,X.shape[0])
+	X = torch.from_numpy(X).to(device)
+
+	output = model(X)
+
+	_ , predicted = torch.max(output,dim=1)
+
+	tag = tags[predicted.item()]
+
+	probs = torch.softmax(output,dim=1)
+	prob = probs[0][predicted.item()]
+
+	if prob.item() > 0.75:
+		for intent in intents['intents']:
+			if tag == intent["tag"]:
+				reply = random.choice(intent["responses"])
+				Say(reply)
+
+while True:
+	Main()
+
