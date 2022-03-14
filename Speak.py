@@ -5,7 +5,7 @@ engine.setProperty('voice', voices[0].id)
 engine.setProperty('rate', 130)
 
 
-def speak(audio):
+def Say(audio):
     engine.say(audio)
     engine.runAndWait()
 

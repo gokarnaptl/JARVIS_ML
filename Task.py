@@ -26,7 +26,7 @@ def NonInputExecution(query):
         Time()
 
     elif "date" in query:
-        Data()
+        Date()
 
     elif"day" in query:
         Day()

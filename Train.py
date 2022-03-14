@@ -5,6 +5,8 @@ import torch.nn as nn
 from torch.utils.data import Dataset,DataLoader
 from NeuralNetwork import bag_of_words , tokenize , stem
 from Brain import NeuralNet
+import nltk
+
 
 
 with open('intents.json','r') as f:
@@ -34,7 +36,6 @@ y_train = []
 for (pattern_sentence,tag) in xy:
     bag = bag_of_words(pattern_sentence,all_words)
     x_train.append(bag)
-
     label = tags.index(tag)
     y_train.append(label)
 
